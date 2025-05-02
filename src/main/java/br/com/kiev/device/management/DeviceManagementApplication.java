@@ -1,4 +1,4 @@
-package br.com.kiev.devicemanagement;
+package br.com.kiev.device.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
