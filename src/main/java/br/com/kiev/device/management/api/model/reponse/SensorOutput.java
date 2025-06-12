@@ -1,0 +1,17 @@
+package br.com.kiev.device.management.api.model.reponse;
+
+import io.hypersistence.tsid.TSID;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class SensorOutput {
+    private TSID id;
+    private String name;
+    private String location;
+    private String ip;
+    private String protocol;
+    private String model;
+    private Boolean enable;
+}
