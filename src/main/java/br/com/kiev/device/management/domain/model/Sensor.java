@@ -24,4 +24,11 @@ public class Sensor {
     private String protocol;
     private String model;
     private Boolean enable;
+
+    public void enable() {
+        this.enable = true;
+    }
+    public void disable() {
+        this.enable = false;
+    }
 }

@@ -7,6 +7,8 @@ import br.com.kiev.device.management.domain.model.Sensor;
 import br.com.kiev.device.management.domain.model.SensorId;
 import br.com.kiev.device.management.domain.repository.SensorRepository;
 import io.hypersistence.tsid.TSID;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -67,6 +69,24 @@ public class SensorController {
         var sensorAtualizado = sensorRepository.save(sensor);
 
         return this.convertToModel(sensorAtualizado);
+    }
+
+    @PutMapping("/{sensorId}/enable")
+    @ResponseStatus(NO_CONTENT)
+    public void enable(@PathVariable @NotNull TSID sensorId) {
+        var sensor = sensorRepository.findById(new SensorId(sensorId))
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Sensor not found"));
+        sensor.enable();
+        sensorRepository.save(sensor);
+    }
+
+    @DeleteMapping("/{sensorId}/enable")
+    @ResponseStatus(NO_CONTENT)
+    public void disable(@PathVariable TSID sensorId) {
+        var sensor = sensorRepository.findById(new SensorId(sensorId))
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Sensor not found"));
+        sensor.disable();
+        sensorRepository.save(sensor);
     }
 
     @DeleteMapping("/{sensorId}")
