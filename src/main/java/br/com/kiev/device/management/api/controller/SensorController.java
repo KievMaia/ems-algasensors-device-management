@@ -7,7 +7,6 @@ import br.com.kiev.device.management.domain.model.Sensor;
 import br.com.kiev.device.management.domain.model.SensorId;
 import br.com.kiev.device.management.domain.repository.SensorRepository;
 import io.hypersistence.tsid.TSID;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
