@@ -7,17 +7,18 @@ import br.com.kiev.device.management.domain.model.Sensor;
 import br.com.kiev.device.management.domain.model.SensorId;
 import br.com.kiev.device.management.domain.repository.SensorRepository;
 import io.hypersistence.tsid.TSID;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/sensors")
@@ -58,7 +59,7 @@ public class SensorController {
     }
 
     @PutMapping("/{sensorId}")
-    public SensorOutput update(@PathVariable TSID sensorId, @RequestBody SensorInput input) {
+    public SensorOutput update(@PathVariable TSID sensorId, @RequestBody @Validated SensorInput input) {
         var sensor = sensorRepository.findById(new SensorId(sensorId))
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Sensor not found"));
 
@@ -70,6 +71,7 @@ public class SensorController {
     }
 
     @DeleteMapping("/{sensorId}")
+    @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable TSID sensorId) {
         var sensor = sensorRepository.findById(new SensorId(sensorId))
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Sensor not found"));
