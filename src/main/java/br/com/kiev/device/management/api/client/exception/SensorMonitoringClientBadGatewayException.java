@@ -1,9 +1,12 @@
 package br.com.kiev.device.management.api.client.exception;
 
-import org.springframework.web.bind.annotation.ResponseStatus;
+import java.io.Serial;
 
-import static org.springframework.http.HttpStatus.BAD_GATEWAY;
-
-@ResponseStatus(BAD_GATEWAY)
 public class SensorMonitoringClientBadGatewayException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    public SensorMonitoringClientBadGatewayException(String message) {
+        super(message);
+    }
 }
