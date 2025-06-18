@@ -1,6 +1,6 @@
 package br.com.kiev.device.management.api.controller;
 
-import br.com.kiev.device.management.api.client.ISensorMonitoringClient;
+import br.com.kiev.device.management.api.model.reponse.SensorDetailOutput;
 import br.com.kiev.device.management.api.model.reponse.SensorOutput;
 import br.com.kiev.device.management.api.model.request.SensorInput;
 import br.com.kiev.device.management.domain.service.SensorService;
@@ -22,7 +22,6 @@ import static org.springframework.http.HttpStatus.*;
 public class SensorController {
 
     private final SensorService service;
-    private final ISensorMonitoringClient monitoringClient;
 
     @GetMapping("")
     public Page<SensorOutput> search(@PageableDefault(direction = ASC) Pageable pageable) {
@@ -32,6 +31,11 @@ public class SensorController {
     @GetMapping("{sensorId}")
     public SensorOutput getOne(@PathVariable TSID sensorId) {
         return service.getOneById(sensorId);
+    }
+
+    @GetMapping("{sensorId}/detail")
+    public SensorDetailOutput getOneWithDetail(@PathVariable TSID sensorId) {
+        return service.getOneWithDetail(sensorId);
     }
 
     @PostMapping
@@ -49,20 +53,17 @@ public class SensorController {
     @ResponseStatus(NO_CONTENT)
     public void enable(@PathVariable @NotNull TSID sensorId) {
         service.enable(sensorId);
-        monitoringClient.enableMonitoring(sensorId);
     }
 
     @DeleteMapping("/{sensorId}/enable")
     @ResponseStatus(NO_CONTENT)
     public void disable(@PathVariable TSID sensorId) {
         service.disable(sensorId);
-        monitoringClient.disableMonitoring(sensorId);
     }
 
     @DeleteMapping("/{sensorId}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable TSID sensorId) {
         service.delete(sensorId);
-        monitoringClient.disableMonitoring(sensorId);
     }
 }
